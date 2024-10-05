@@ -1,4 +1,3 @@
-// used to detect when a user hovers over a product
 document.addEventListener('mouseover', function (event) {
     // List common product-related classes or tags used across e-commerce websites
     const productSelectors = [
@@ -20,7 +19,7 @@ document.addEventListener('mouseover', function (event) {
         const existingPopup = document.querySelector('.popup-widget');
         if (existingPopup) existingPopup.remove();
 
-        // Create and style a blank pop-up
+        // Create a blank pop-up element
         const popup = document.createElement('div');
         popup.classList.add('popup-widget');
         popup.style.position = 'absolute';
@@ -31,7 +30,18 @@ document.addEventListener('mouseover', function (event) {
         popup.style.top = event.pageY + 'px';
         popup.style.left = event.pageX + 'px';
 
-        popup.innerHTML = '<p>No data available yet.</p>';
+        // Load the external HTML content
+        fetch(chrome.runtime.getURL('popup-content.html'))
+            .then(response => response.text())
+            .then(data => {
+                // Inject the loaded HTML into the popup
+                popup.innerHTML = data;
+            })
+            .catch(error => {
+                // Handle errors if the HTML file couldn't be loaded
+                popup.innerHTML = '<p>Failed to load content.</p>';
+                console.error('Error loading popup-content.html:', error);
+            });
 
         document.body.appendChild(popup);
 
