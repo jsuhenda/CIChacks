@@ -31,7 +31,7 @@ document.addEventListener('mouseover', function (event) {
         popup.style.left = event.pageX + 'px';
 
         // Load the external HTML content
-        fetch(chrome.runtime.getURL('popup-content.html'))
+        fetch(chrome.runtime.getURL('popupContent.html'))
             .then(response => response.text())
             .then(data => {
                 // Inject the loaded HTML into the popup
