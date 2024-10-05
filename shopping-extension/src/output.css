@@ -554,15 +554,12 @@ video {
   display: none;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  padding: 10px;
-  background-color: #f9f9f9;
+/* body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    background-color: #f9f9f9;
 }
 
 h1 {
-  color: #333;
-}
-
-p {
-}
+    color: #333;
+} */

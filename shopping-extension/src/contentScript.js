@@ -1,20 +1,43 @@
 // used to detect when a user hovers over a product
+document.addEventListener('mouseover', function (event) {
+    // List common product-related classes or tags used across e-commerce websites
+    const productSelectors = [
+        '.product', '.item', '.product-tile', '.product-item', '.product-card', '.product-list-item',
+        'a[data-product-id]', '.product-link'
+    ];
 
-// document.addEventListener('mouseover', function (event) {
-//     const productElement = event.target.closest('.product-item');  // Adjust this selector
-  
-//     if (productElement) {
-//       const productName = productElement.querySelector('.product-name').textContent;
-      
-//       // Call the Lambda function to get sustainability info
-//       fetch(`https://aws-lambda-endpoint/?productName=${productName}`)
-//         .then(response => response.json())
-//         .then(data => {
-//           // Populate the pop-up with product data
-//           document.getElementById('productName').textContent = productName;
-//           document.getElementById('sustainabilityRating').textContent = `Sustainability Score: ${data.rating}%`;
-//           document.getElementById('ratingBar').style.width = `${data.rating
-//         })
+    // Check if the hovered element matches any common product selectors
+    let product = null;
+    for (let selector of productSelectors) {
+        product = event.target.closest(selector);
+        if (product) break;
+    }
 
-//     }
-//  })
+    if (product) {
+        console.log('Product hovered:', product);
+
+        // Remove existing pop-up to avoid duplicates
+        const existingPopup = document.querySelector('.popup-widget');
+        if (existingPopup) existingPopup.remove();
+
+        // Create and style a blank pop-up
+        const popup = document.createElement('div');
+        popup.classList.add('popup-widget');
+        popup.style.position = 'absolute';
+        popup.style.backgroundColor = '#fff';
+        popup.style.border = '1px solid #ddd';
+        popup.style.padding = '10px';
+        popup.style.zIndex = 1000;
+        popup.style.top = event.pageY + 'px';
+        popup.style.left = event.pageX + 'px';
+
+        popup.innerHTML = '<p>No data available yet.</p>';
+
+        document.body.appendChild(popup);
+
+        // Remove the pop-up when the mouse leaves the product
+        product.addEventListener('mouseleave', function () {
+            if (popup) popup.remove();
+        });
+    }
+});
